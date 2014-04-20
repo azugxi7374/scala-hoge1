@@ -1,6 +1,6 @@
 echo off
 
-echo compile -> package -> git add -> commit -> push -> cp to lib folder
+echo "compile -> package -> git add -> commit -> push -> cp to lib folder"
 
 set IXXASCALALIBCOMMES=
 set /P IXXASCALALIBCOMMES="commit message : "
