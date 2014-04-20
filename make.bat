@@ -21,3 +21,6 @@ call git push origin master
 
 set /P IXXASCALALIBOK="COPY?"
 call cp .\target\scala-2.10\ixxascalalib_2.10-0.01.jar %DROPBOX%\Public\liblary
+
+start %HOME%\.sbt\0.13\build.sbt
+
