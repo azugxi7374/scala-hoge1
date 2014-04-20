@@ -1,5 +1,7 @@
+package ixxa
 
 import java.io._
+
 object FileIO {
 
 	def input[T](fname : String)(f : BufferedReader => T) : T = {
