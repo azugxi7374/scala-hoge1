@@ -4,8 +4,12 @@ import java.io._
 
 object FileIO {
 
-	def input[T](fname : String)(f : BufferedReader => T) : T = {
-		val br = new BufferedReader(new InputStreamReader(new FileInputStream(fname)))
+	val DefaultCset = "UTF-8"
+
+	def br(fname : String, cset : String = DefaultCset) = new BufferedReader(new InputStreamReader(new FileInputStream(fname), cset))
+
+	def input[T](fname : String, cset : String = DefaultCset)(f : BufferedReader => T) : T = {
+		val br = this.br(fname, cset)
 		try {
 			f(br)
 		} finally {
@@ -18,8 +22,8 @@ object FileIO {
 
 	def brToList(br : BufferedReader) : List[String] = brToItrt(br).toList
 
-	def output[T](fname : String)(f : PrintWriter => T) : T = {
-		val pw = new PrintWriter(fname)
+	def output[T](fname : String, cset : String = DefaultCset)(f : PrintWriter => T) : T = {
+		val pw = new PrintWriter(fname, cset)
 		try {
 			f(pw)
 		} finally {
