@@ -1,6 +1,8 @@
 package ixxa
 
 import java.io._
+import java.awt.image._
+import javax.imageio._
 
 object FileIO {
 
@@ -22,13 +24,24 @@ object FileIO {
 
 	def brToList(br : BufferedReader) : List[String] = brToItrt(br).toList
 
-	def output[T](fname : String, cset : String = DefaultCset)(f : PrintWriter => T) : T = {
-		val pw = new PrintWriter(fname, cset)
+	def output[T](fname : String, cset : String = DefaultCset, append : Boolean = false)(f : PrintWriter => T) : T = {
+		val pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(
+			new File(fname), append)))
+
 		try {
 			f(pw)
 		} finally {
 			pw.close
 		}
 	}
-}
 
+	// image output
+	def output(bi : BufferedImage, fname : String, format : String = "PNG") {
+		import java.awt.image.BufferedImage;
+		import javax.imageio.{ ImageIO => JImageIO }
+
+		if (!ImageIO.write(bi, format, new File(fname))) {
+			throw new IOException("フォーマットが対象外")
+		}
+	}
+}

@@ -1,5 +1,5 @@
 <projectDescription>
-  <name>scala-lib</name>
+  <name>ixxascalalib</name>
   <buildSpec>
     <buildCommand>
       <name>org.scala-ide.sdt.core.scalabuilder</name>

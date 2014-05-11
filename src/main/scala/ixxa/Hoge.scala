@@ -6,6 +6,15 @@ import scala.annotation.tailrec
 // どうでもいいメソッド群
 object Hoge {
 
+	def successEx(f : => Any) : Boolean = {
+		try {
+			f
+			true
+		} catch {
+			case e : Exception => false
+		}
+	}
+
 	// キー± → 速度
 	def keyspd(x : Double) = Math.pow(2, x / 12)
 
