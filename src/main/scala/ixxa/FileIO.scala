@@ -36,7 +36,7 @@ object FileIO {
 	}
 
 	// image output
-	def output(bi : BufferedImage, fname : String, format : String = "PNG") {
+	def imout(bi : BufferedImage, fname : String, format : String = "PNG") {
 		import java.awt.image.BufferedImage;
 		import javax.imageio.{ ImageIO => JImageIO }
 

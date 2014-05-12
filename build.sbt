@@ -12,7 +12,9 @@ val dispatchVersion = "0.11.0"
 
 //jarName in assembly := prog_name + ".jar"
 
-outputPath in assembly := file("jar/"+prog_name+".jar")
+val db = System.getenv("DROPBOX").filterNot(_=='"')
+
+outputPath in assembly := file(db+"/Public/library/"+prog_name+".jar")
 
 libraryDependencies := Seq(
   //"ixxascalalib" % "ixxascalalib" % "0.017" from "https://dl.dropboxusercontent.com/u/30758682/liblary/ixxascalalib_2.10-0.01.jar",
