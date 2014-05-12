@@ -2,10 +2,12 @@ package ixxa
 
 import scala.language.implicitConversions
 import scala.annotation.tailrec
+import scala.util.Random
 
 // どうでもいいメソッド群
 object Hoge {
 
+	// 例外きたらfalse
 	def successEx(f : => Any) : Boolean = {
 		try {
 			f
@@ -13,6 +15,11 @@ object Hoge {
 		} catch {
 			case e : Exception => false
 		}
+	}
+
+	// ランダム
+	def rand(s : Int, e : Int) : Int = {
+		((e - s) * Math.random + s).toInt
 	}
 
 	// キー± → 速度
