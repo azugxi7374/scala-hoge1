@@ -19,10 +19,12 @@ object FileIO {
 		}
 	}
 
-	def brToItrt(br : BufferedReader) : Iterator[String] =
-		Iterator.continually(br.readLine).takeWhile(_ != null)
+	def inputList[T](fname : String, cset : String = DefaultCset) : List[String] = input(fname, cset) { br =>
+		br2Itrt(br).toList
+	}
 
-	def brToList(br : BufferedReader) : List[String] = brToItrt(br).toList
+	protected def br2Itrt(br : BufferedReader) : Iterator[String] =
+		Iterator.continually(br.readLine).takeWhile(_ != null)
 
 	def output[T](fname : String, cset : String = DefaultCset, append : Boolean = false)(f : PrintWriter => T) : T = {
 		val pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(

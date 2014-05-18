@@ -4,16 +4,17 @@ import scala.language.implicitConversions
 import scala.annotation.tailrec
 import scala.util.Random
 
+import FileIO._
+
 // どうでもいいメソッド群
 object Hoge {
 
-	// 例外きたらfalse
-	def successEx(f : => Any) : Boolean = {
+	// 例外きたらNone
+	def optEx[T](f : => T) : Option[T] = {
 		try {
-			f
-			true
+			Some(f)
 		} catch {
-			case e : Exception => false
+			case e : Exception => None
 		}
 	}
 
@@ -25,17 +26,54 @@ object Hoge {
 	// キー± → 速度
 	def keyspd(x : Double) = Math.pow(2, x / 12)
 
-	implicit def toMyString[T](x : T) : MyString[T] = new MyString(x)
+	///////////////////////////////////////
+	implicit def toMyLong(x : Long) = MyLong(x)
 
-	class MyString[T](t : T) {
-		def apply = t
+	case class MyLong(x : Long) {
+		def apply = x
+
+		// x^y オーバーフロー考慮しない
+		def **(y : Long) : Long = {
+			@tailrec
+			def rec(ret : Long, xx : Long, yy : Long) : Long = {
+				if (yy == 0) ret
+				else {
+					if ((yy & 1) == 1) {
+						rec(ret * xx, xx * xx, yy >> 1)
+					} else {
+						rec(ret, xx * xx, yy >> 1)
+					}
+				}
+			}
+			rec(1, x, y)
+		}
+
+		// 優先順位用
+		def #**(y : Long) : Long = **(y)
+
+	}
+
+	//////////////////////////////////////
+	// String Impl
+	implicit def toMyString(s : String) : MyString = new MyString(s)
+	implicit def toMyString(x : AnyVal) : MyString = new MyString(x.toString)
+
+	class MyString(str : String) {
+		def apply = str
 
 		// クリップボードにコピー
 		def clip {
 			val clipboard = java.awt.Toolkit.getDefaultToolkit.getSystemClipboard
-			val sel = new java.awt.datatransfer.StringSelection(t.toString)
+			val sel = new java.awt.datatransfer.StringSelection(str.toString)
 			clipboard.setContents(sel, sel)
 		}
+
+		// +>
+		def *>(fname : String) = FileIO.output(fname) { _.print(str) }
+
+		def +>(fname : String) = FileIO.output(fname, append = true) { _.print(str) }
+
+		def -> = FileIO.inputList(str.toString)
 	}
 
 	// Seg

@@ -16,6 +16,8 @@ val db = System.getenv("DROPBOX").filterNot(_=='"')
 
 outputPath in assembly := file(db+"/Public/library/"+prog_name+".jar")
 
+unmanagedJars in Compile := Seq()
+
 libraryDependencies := Seq(
   //"ixxascalalib" % "ixxascalalib" % "0.017" from "https://dl.dropboxusercontent.com/u/30758682/liblary/ixxascalalib_2.10-0.01.jar",
   //"org.specs2" %% "specs2" % "2.3.11" % "test",
