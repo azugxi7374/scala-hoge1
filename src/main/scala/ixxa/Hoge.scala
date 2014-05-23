@@ -9,6 +9,9 @@ import FileIO._
 // どうでもいいメソッド群
 object Hoge {
 
+	// Zコンビネータ(?)
+	def Z[X, Y](s : X)(F : X => (X => Y) => Y) : Y = F(s)((x : X) => Z(x)(F))
+
 	// 例外きたらNone
 	def optEx[T](f : => T) : Option[T] = {
 		try {
