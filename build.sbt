@@ -1,34 +1,28 @@
 import AssemblyKeys._
 
-val prog_name = "ixxascalalib"
+val prog_name = "sixlib"
 
 name := prog_name
 
-version := "0.01"
+version := "1.00"
 
-val scalazVersion = "7.0.6"
+scalaVersion := "2.11.2"
 
-val dispatchVersion = "0.11.0"
+//val scalazVersion = "7.0.6"
+
+//val dispatchVersion = "0.11.0"
 
 //jarName in assembly := prog_name + ".jar"
 
-val db = System.getenv("DROPBOX").filterNot(_=='"')
+//val db = System.getenv("DROPBOX").filterNot(_=='"')
 
-outputPath in assembly := file(db+"/Public/library/"+prog_name+".jar")
+//outputPath in assembly := file(db+"/Public/library/"+prog_name+".jar")
 
 unmanagedJars in Compile := Seq()
 
-libraryDependencies := Seq(
-  //"ixxascalalib" % "ixxascalalib" % "0.017" from "https://dl.dropboxusercontent.com/u/30758682/liblary/ixxascalalib_2.10-0.01.jar",
-  //"org.specs2" %% "specs2" % "2.3.11" % "test",
-  //"org.scalaz" %% "scalaz-core" % scalazVersion,
-  //"org.scalaz" %% "scalaz-effect" % scalazVersion,
-  //"org.scalaz" %% "scalaz-typelevel" % scalazVersion,
-  //"org.scalaz" %% "scalaz-scalacheck-binding" % scalazVersion % "test",
-  "net.databinder.dispatch" %% "dispatch-core" % dispatchVersion
-  //"net.databinder.dispatch" %% "dispatch-jsoup" % dispatchVersion,
-  //"net.databinder.dispatch" %% "dispatch-json4s-native" % dispatchVersion
-  //"org.slf4j" % "slf4j-log4j12" % "1.7.6",
-  //"org.twitter4j" % "twitter4j-core" % "[4.0,)"
-  //"org.jsoup" % "jsoup" % "1.7.3"
+libraryDependencies ++= Seq(
+	"org.apache.pdfbox" % "pdfbox" % "[1.8,)",
+	"org.scala-lang" % "scala-compiler" % scalaVersion.value,	
+  "com.typesafe.akka" %% "akka-actor" % "2.3.6",
+	"org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"
 )
