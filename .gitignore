@@ -1,3 +1,10 @@
 target
 project
 .idea*
+.DS_Store
+.cache
+.classpath
+.history
+.project
+.settings
+*~
