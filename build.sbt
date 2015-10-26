@@ -4,6 +4,8 @@ val prog_name = "sixlib"
 
 name := prog_name
 
+organization := "ixxa"
+
 version := "1.00"
 
 scalaVersion := "2.11.2"

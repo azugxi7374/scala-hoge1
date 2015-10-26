@@ -42,8 +42,8 @@ object Eval {
 }
 
 /**
- * @see [[Ixlib.printWrapper]]
- * @see [[Ixlib.timeWrapper]]
+ * @see [[ixlib.printWrapper]]
+ * @see [[ixlib.timeWrapper]]
  * @note (カリー化すると定義が重複する...
  */
 class Wrapper[H, F, T] private(header: () => H, footer: (H, T) => F) {
@@ -56,8 +56,8 @@ class Wrapper[H, F, T] private(header: () => H, footer: (H, T) => F) {
 }
 
 /**
- * @see [[Ixlib.printWrapper]]
- * @see [[Ixlib.timeWrapper]]
+ * @see [[ixlib.printWrapper]]
+ * @see [[ixlib.timeWrapper]]
  * @note (カリー化すると定義が重複する...
  */
 object Wrapper {

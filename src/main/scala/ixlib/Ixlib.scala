@@ -1,14 +1,12 @@
-package ixlib
-
 import java.io.File
 import scala.language.implicitConversions
 import scala.annotation.tailrec
 import sys.process._
 
-// どうでもいいメソッド群
-object Ixlib {
 
-  // Zコンビネータ(?)
+package object ixlib {
+
+  /** Zコンビネータ(?) */
   def Z[X, Y](s: X)(F: X => (X => Y) => Y): Y = F(s)((x: X) => Z(x)(F))
 
   /** 例外ならNone, それ以外はSome */
@@ -34,9 +32,7 @@ object Ixlib {
   /** currentTime == t までThread.sleepする */
   @tailrec
   final def sleepUntil(t: Long, stopJudge: => Boolean = false): Unit = {
-    if (t <= currentTime) {
-      // end
-    } else if (!stopJudge) {
+    if (currentTime < t && !stopJudge) {
       Thread.sleep(Math.max(0, Math.min(1000, t - currentTime)))
       sleepUntil(t, stopJudge)
     }
@@ -81,7 +77,7 @@ object Ixlib {
       rec(1, x, y)
     }
 
-    // 優先順位用
+    /** 優先順位用 */
     def #**(y: Long): Long = **(y)
   }
 
@@ -108,6 +104,7 @@ object Ixlib {
 
     /** ファイル入力 => List[String] */
     def -> : List[String] = FileIO.inputList(str.toString)
+
   }
 
   //  // Seg
