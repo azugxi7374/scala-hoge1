@@ -6,8 +6,9 @@ import scala.annotation.tailrec
 import scala.language.implicitConversions
 import scala.reflect.runtime.currentMirror
 import scala.tools.reflect.ToolBox
+import sys.process._
 
-object Hoge1 {
+object Hoge1 extends Wrapped {
 
 	// Zコンビネータ(?)
 	def Z[X, Y](s: X)(F: X => (X => Y) => Y): Y = F(s)((x: X) => Z(x)(F))
@@ -29,56 +30,79 @@ object Hoge1 {
 	// キー± → 速度
 	def keyspd(x: Double) = Math.pow(2, x / 12)
 
+
 	///////////////////////////////////////
 	implicit def toExInt(x: Long): ExInt = ExInt(BigInt(x))
 	implicit def toExInt(x: BigInt): ExInt = ExInt(x)
 
-	case class ExInt(x: BigInt) {
-		def apply = x
+	implicit def toExString(s: String): ExString = new ExString(s)
 
-		// x^y
-		def **(y: BigInt): BigInt = {
+	implicit def toExAnyRef[T <: AnyRef](x: T): ExAnyRef[T] = new ExAnyRef[T](x)
+}
 
-			@tailrec
-			def rec(ret: BigInt, xx: BigInt, yy: BigInt): BigInt = {
-				if (yy == 0) ret
-				else {
-					if ((yy & 1) == 1) {
-						rec(ret * xx, xx * xx, yy >> 1)
-					} else {
-						rec(ret, xx * xx, yy >> 1)
-					}
+case class ExString(str: String) {
+	// クリップボードにコピー
+	def clip: String = {
+		val clipboard = java.awt.Toolkit.getDefaultToolkit.getSystemClipboard
+		val sel = new java.awt.datatransfer.StringSelection(str.toString)
+		clipboard.setContents(sel, sel)
+		str
+	}
+
+	def open: String = {
+		val open = if (System.getProperty("os.name").startsWith("Windows")) {
+			"cmd /k start"
+		} else {
+			"open"
+		}
+		val cmd = s"$open $str"
+		println(cmd)
+		cmd !!
+	}
+	def google: String = ExString( s"""http://google.com?#q=${str.split(" ").mkString("+")}""").open
+	def weblio: String = ExString( s"""http://ejje.weblio.jp/content/${str.split(" ").mkString("+")}""").open
+}
+
+case class ExAnyRef[T <: AnyRef](obj: T) {
+	def clip: String = ExString(obj.toString).clip
+
+	def api: String = ExString(("api" +:
+		obj.getClass.getPackage.getName.split('.') :+
+		obj.getClass.getSimpleName
+		).mkString(" ")
+	).google
+}
+
+
+case class ExInt(x: BigInt) {
+	def clip: String = ExString(x.toString).clip
+
+	// x^y
+	def **(y: BigInt): BigInt = {
+
+		@tailrec
+		def rec(ret: BigInt, xx: BigInt, yy: BigInt): BigInt = {
+			if (yy == 0) ret
+			else {
+				if ((yy & 1) == 1) {
+					rec(ret * xx, xx * xx, yy >> 1)
+				} else {
+					rec(ret, xx * xx, yy >> 1)
 				}
 			}
-			rec(1, x, y)
 		}
-
-		def **(y: Long): BigInt = **(BigInt(y))
-
-		// 優先順位用
-		def #**(y: BigInt): BigInt = **(y)
-
-		def #**(y: Long): BigInt = **(y)
-
+		rec(1, x, y)
 	}
 
-	//////////////////////////////////////
-	// String Impl
-	implicit def toMyString(s: String): MyString = new MyString(s)
-	implicit def toMyString(x: AnyVal): MyString = new MyString(x.toString)
+	def **(y: Long): BigInt = **(BigInt(y))
 
-	class MyString(str: String) {
-		def apply = str
+	// 優先順位用
+	def #**(y: BigInt): BigInt = **(y)
 
-		// クリップボードにコピー
-		def clip {
-			val clipboard = java.awt.Toolkit.getDefaultToolkit.getSystemClipboard
-			val sel = new java.awt.datatransfer.StringSelection(str.toString)
-			clipboard.setContents(sel, sel)
-		}
-	}
+	def #**(y: Long): BigInt = **(y)
 
 }
+
 
 final case class UnionFind(size: Int) {
 	val par = Array.tabulate(size) { i => i }
@@ -93,6 +117,7 @@ final case class UnionFind(size: Int) {
 		if (p1 != i1) union(p1, i2)
 	}
 }
+
 
 /**
  * Eval[Int]("val a = 5; a + 3") // => 8
