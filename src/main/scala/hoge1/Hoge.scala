@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+import java.util.Date
 package object hoge1 {
 
 	import scala.language.implicitConversions
@@ -10,7 +12,11 @@ package object hoge1 {
 		Path.fromString(Utils.getHome) / ".scala_hoge1" createFile (failIfExists = false)
 	)
 
-	object Hoge1 extends Utils with Wrapped with Impls with Twitter4REPL
+	val df = new SimpleDateFormat("yy/MM/dd HH:mm:ss")
+	def dateFormat(date: Date) = df.format(date)
+
+
+	object Hoge1 extends Utils with Wrapped with Impls with twitter.Twitter4REPL
 
 }
 
