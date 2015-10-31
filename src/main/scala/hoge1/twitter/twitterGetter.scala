@@ -3,7 +3,6 @@ package hoge1.twitter
 import twitter4j._
 import twitter4j.auth.AccessToken
 import hoge1.twitter.TwitterUtils._
-import TwitterPool._
 
 
 case class TwitterGetter(tc: TwitterConf) {
@@ -19,7 +18,7 @@ case class TwitterGetter(tc: TwitterConf) {
 		val ck = kg.getCK
 		val at = atGetter(ck)
 		println("Create Twitter @%s".format(at2User(ck, at).getScreenName))
-		CreateTwitter.apply(ck, at)
+		createTwitter(ck, at)
 	}
 }
 

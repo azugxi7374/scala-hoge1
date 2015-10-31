@@ -1,4 +1,5 @@
 package hoge1
+
 import java.io.File
 
 import scala.annotation.tailrec
@@ -44,10 +45,40 @@ object Eval {
 	def fromFile[A](file: String, args: String*): A = fromFile(new File(file), args: _*)
 }
 
-trait Pool[K, V] {
+object Cache {
+	lazy val list = collection.mutable.ListBuffer[Cache]()
+	def add(instance: Cache) = {
+		list += instance
+	}
+	def clear = list.foreach(_.clear)
+}
+trait Cached[K, V] extends Cache {
+	Cache.add(this)
+	protected final def clear = map.clear
+
 	protected def get(key: K): V
 	final val map = collection.mutable.Map[K, V]()
 	def apply(k: K): V = {
 		map.getOrElseUpdate(k, get(k))
 	}
 }
+trait Cache {
+	protected def clear
+}
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//

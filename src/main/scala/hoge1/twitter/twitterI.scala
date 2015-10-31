@@ -2,6 +2,7 @@ package hoge1.twitter
 
 import twitter4j.{ResponseList, Status, User, Twitter}
 import collection.JavaConverters._
+import TwitterUtils._
 
 // TODO htmlダンプしてopenするやつ
 trait TwitterI {
@@ -11,7 +12,7 @@ trait TwitterI {
 	implicit class ExTwitter(tw: Twitter) {
 		implicit def to = tw
 		def switch: Twitter = ct.createTwitterSelect
-		def user: String = "@" + tw.users.verifyCredentials().getScreenName
+		def user: String = "@" + owner(tw).getScreenName
 
 		def tl = tw.getHomeTimeline
 	}
