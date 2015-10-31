@@ -1,14 +1,12 @@
 package hoge1.twitter
 
-import config.SessionFile
+import java.text.SimpleDateFormat
+import java.util.Date
+
 import hoge1.Cached
 import twitter4j.conf.ConfigurationBuilder
-import twitter4j.{User, TwitterFactory, Twitter}
+import twitter4j.{Status, User, TwitterFactory, Twitter}
 import twitter4j.auth.AccessToken
-
-case class TwitterConf(sessionFile: SessionFile)
-
-case class ConsumerKeys(key: String, secret: String)
 
 object TwitterUtils {
 	protected case class AT(atk: String, ats: String) {
@@ -17,6 +15,15 @@ object TwitterUtils {
 	protected object AT {
 		def apply(at: AccessToken) = new AT(at.getToken, at.getTokenSecret)
 	}
+
+	val df = new SimpleDateFormat("yy/MM/dd HH:mm:ss")
+	def dateFormat(date: Date) = df.format(date)
+
+	def status2URL(status: Status): String = status2URL(status.getUser, status)
+	def status2URL(user: User, status: Status): String = createStatusURL(user.getScreenName, status.getId)
+
+	def user2UserPageURL(user: User): String = createUserPageURL(user.getScreenName)
+
 
 	object at2User extends Cached[(ConsumerKeys, AT), User] {
 		override protected def get(k: (ConsumerKeys, AT)): User = {

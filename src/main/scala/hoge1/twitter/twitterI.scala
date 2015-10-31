@@ -28,7 +28,7 @@ trait TwitterI {
 		def text =
 			"""%s <%s@%s %s %s>
 				| """.stripMargin.format(
-				st.getText, user.getName, user.getScreenName, hoge1.dateFormat(st.getCreatedAt),
+				st.getText, user.getName, user.getScreenName, dateFormat(st.getCreatedAt),
 				createStatusURL(user.getScreenName, st.getId))
 
 	}
