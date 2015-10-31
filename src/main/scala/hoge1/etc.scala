@@ -43,3 +43,11 @@ object Eval {
 
 	def fromFile[A](file: String, args: String*): A = fromFile(new File(file), args: _*)
 }
+
+trait Pool[K, V] {
+	protected def get(key: K): V
+	final val map = collection.mutable.Map[K, V]()
+	def apply(k: K): V = {
+		map.getOrElseUpdate(k, get(k))
+	}
+}

@@ -1,24 +1,26 @@
 package hoge1
 
 package object twitter {
-	import config.{Session, SessionFile}
 	import twitter4j._
-	import twitter4j.auth.AccessToken
-	import twitter4j.conf.ConfigurationBuilder
 
 	def createStatusURL(screenName: String, statusId: Long) =
 		"https://twitter.com/%s/status/%d".format(screenName, statusId)
 
+	object Twitter4REPL extends Twitter4REPL
+	trait Twitter4REPL extends TwitterI{
+		val conf = TwitterConf(hoge1.sessionFile)
+		val tw = TwitterGetter(conf)
 
-	trait Twitter4REPL extends twitter.TwitterImpl {
-		import TwitterUtils._
+		object Tw4r {
+			/** デフォルトユーザーでtwitter作成． */
+			def default: Twitter = tw.createTwitterDefault
 
-		def twitter: Twitter = {
-			val tw = create
-			println("current user : @%s".format(getUser(tw).getScreenName))
-			tw
+			/** ユーザーを選択してtwitter作成． */
+			def select: Twitter = tw.createTwitterSelect
+
+			/** ユーザー情報を消去してtwitter作成． */
+			def clean: Twitter = tw.createTwitterClean
 		}
-		def clearTwitter = TwitterUtils.clear
 	}
 }
 

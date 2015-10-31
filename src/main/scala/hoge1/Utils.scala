@@ -10,7 +10,7 @@ trait Utils {
 	def Z[X, Y](s: X)(F: X => (X => Y) => Y): Y = F(s)((x: X) => Z(x)(F))
 
 	// 例外きたらNone
-	def optEx[T](f: => T, printFlg: Boolean = true): Option[T] = {
+	def optEx[T](f: => T, printFlg: Boolean = false): Option[T] = {
 		try {
 			Some(f)
 		} catch {
@@ -31,6 +31,7 @@ trait Utils {
 	def read(str: String = "> ") = {
 		val ret = scala.io.StdIn.readLine(str)
 		println
+		println(""" => [%s]""".format(ret))
 		ret
 	}
 
