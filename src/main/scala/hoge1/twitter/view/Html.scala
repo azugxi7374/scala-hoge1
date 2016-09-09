@@ -8,7 +8,8 @@ import collection.JavaConverters._
 
 import scalax.file.Path
 
-object Html {
+object Html extends Html
+trait Html {
 	import HtmlView._
 	def statusList2Html(rs: ResponseList[Status]): String = statusList2Html(rs.asScala.toList)
 	def statusList2Html(statusList: Seq[Status]): String = listHtml(statusList.map(status2Html))

@@ -69,5 +69,5 @@ initialCommands in console := """
 
 assemblyOption in assembly ~= {_.copy(includeScala = false)}
 
-
+assemblyOutputPath in assembly := file(s"""${System.getenv("DROPBOX")}/_lib/${name.value}.jar""")
 

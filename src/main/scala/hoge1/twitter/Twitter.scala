@@ -18,6 +18,7 @@ package object twitter {
 
 
 	object Twitter4REPL extends Twitter4REPL
+
 	trait Twitter4REPL extends TwitterI {
 		val conf = TwitterConf(sessionFile)
 		val tw = TwitterGetter(conf)
