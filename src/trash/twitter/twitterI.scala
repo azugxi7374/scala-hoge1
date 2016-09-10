@@ -1,4 +1,4 @@
-package hoge1.twitter
+package org.zerngsn.opt.twitter
 
 import twitter4j.{ResponseList, Status, User, Twitter}
 import collection.JavaConverters._

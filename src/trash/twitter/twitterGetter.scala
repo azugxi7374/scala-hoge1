@@ -1,8 +1,8 @@
-package hoge1.twitter
+package org.zerngsn.opt.twitter
 
 import twitter4j._
 import twitter4j.auth.AccessToken
-import hoge1.twitter.TwitterUtils._
+import org.zerngsn.opt.twitter.TwitterUtils._
 
 
 case class TwitterGetter(tc: TwitterConf) {

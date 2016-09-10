@@ -1,4 +1,4 @@
-package hoge1.twitter
+package org.zerngsn.opt.twitter
 
 import config.{Session, SessionFile}
 import twitter4j.auth.AccessToken

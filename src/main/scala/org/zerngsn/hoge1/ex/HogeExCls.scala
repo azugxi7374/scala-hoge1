@@ -1,15 +1,7 @@
-package hoge1
+package org.zerngsn.hoge1.ex
 
 import scala.annotation.tailrec
 import scala.sys.process._
-
-trait Impls {
-	implicit def toExInt(x: Long): ExInt = ExInt(BigInt(x))
-	implicit def toExInt(x: BigInt): ExInt = ExInt(x)
-
-	implicit def toExString(s: String): ExString = new ExString(s)
-	implicit def toExAnyRef[T <: AnyRef](x: T): ExAnyRef[T] = new ExAnyRef[T](x)
-}
 
 case class ExString(str: String) {
 	// クリップボードにコピー
@@ -45,7 +37,11 @@ case class ExAnyRef[T <: AnyRef](obj: T) {
 }
 
 
-case class ExInt(x: BigInt) {
+case class ExInt(x: Int) {
+	def times = Range(0, x)
+}
+
+case class ExIntFamily(x: BigInt) {
 	def clip: String = ExString(x.toString).clip
 
 	// x^y
@@ -71,5 +67,4 @@ case class ExInt(x: BigInt) {
 	def #**(y: BigInt): BigInt = **(y)
 
 	def #**(y: Long): BigInt = **(y)
-
 }

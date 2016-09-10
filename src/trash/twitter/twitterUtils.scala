@@ -1,11 +1,11 @@
-package hoge1.twitter
+package org.zerngsn.opt.twitter
 
 import java.text.SimpleDateFormat
 import java.util.Date
 
-import hoge1.Cached
+import org.zerngsn.hoge1.Cached
 import twitter4j.conf.ConfigurationBuilder
-import twitter4j.{Status, User, TwitterFactory, Twitter}
+import twitter4j.{Status, Twitter, TwitterFactory, User}
 import twitter4j.auth.AccessToken
 
 object TwitterUtils {

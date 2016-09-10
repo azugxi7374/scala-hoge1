@@ -1,8 +1,8 @@
-package hoge1.twitter.view
+package org.zerngsn.opt.twitter.view
 
 import java.util.Date
-import hoge1.twitter._
-import hoge1.twitter.TwitterUtils._
+import org.zerngsn.opt.twitter._
+import org.zerngsn.opt.twitter.TwitterUtils._
 import twitter4j.{ResponseList, User, Status}
 import collection.JavaConverters._
 
